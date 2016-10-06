@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# PROVIDE: DarkKnightsCoin
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# DarkKnightsCoin_enable (bool): Set to NO by default. Set this variable to YES if you want to enable DarkKnightsCoin service.
+# DarkKnightsCoin_config (path): Set to /usr/local/etc/DarkKnightsCoin.conf by default.
+# DarkKnightsCoin_user:  The user account DarkKnightsCoin daemon runs as. It uses 'root' user by default.
+# DarkKnightsCoin_group: The group account DarkKnightsCoin daemon runs as. It uses 'wheel' group by default.
+# DarkKnightsCoin_datadir (str): Default to "/var/db/DarkKnightsCoin". Base data directory.
+
+. /etc/rc.subr
+
+name=DarkKnightsCoin
+rcvar=DarkKnightsCoin_enable
+
+: ${DarkKnightsCoin_enable:=NO}
+: ${DarkKnightsCoin_config=/usr/local/etc/DarkKnightsCoin.conf}
+: ${DarkKnightsCoin_datadir=/var/db/DarkKnightsCoin}
+: ${DarkKnightsCoin_user="root"}
+: ${DarkKnightsCoin_group="wheel"}
+
+required_files=${DarkKnightsCoin_config}
+command=/usr/local/bin/DarkKnightsCoind
+DarkKnightsCoin_chdir=${DarkKnightsCoin_datadir}
+pidfile="${DarkKnightsCoin_datadir}/DarkKnightsCoind.pid"
+stop_cmd=DarkKnightsCoin_stop
+command_args="-conf=${DarkKnightsCoin_config} -datadir=${DarkKnightsCoin_datadir} -daemon -pid=${pidfile}"
+start_precmd="${name}_prestart"
+
+DarkKnightsCoin_create_datadir()
+{
+	echo "Creating data directory"
+	eval mkdir -p ${DarkKnightsCoin_datadir}
+	[ $? -eq 0 ] && chown -R ${DarkKnightsCoin_user}:${DarkKnightsCoin_group} ${DarkKnightsCoin_datadir}
+}
+
+DarkKnightsCoin_prestart()
+{
+	if [ ! -d "${DarkKnightsCoin_datadir}/." ]; then
+		DarkKnightsCoin_create_datadir || return 1
+	fi
+}
+
+DarkKnightsCoin_requirepidfile()
+{
+	if [ ! "0`check_pidfile ${pidfile} ${command}`" -gt 1 ]; then
+		echo "${name} not running? (check $pidfile)."
+		exit 1
+	fi
+}
+
+DarkKnightsCoin_stop()
+{
+    DarkKnightsCoin_requirepidfile
+
+	echo "Stopping ${name}."
+	eval ${command} -conf=${DarkKnightsCoin_config} -datadir=${DarkKnightsCoin_datadir} stop
+	wait_for_pids ${rc_pid}
+}
+
+load_rc_config $name
+run_rc_command "$1"

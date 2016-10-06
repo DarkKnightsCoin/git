@@ -1,0 +1,2 @@
+debian/bin/DarkKnightsCoind usr/bin
+src/DarkKnightsCoind usr/lib/DarkKnightsCoin

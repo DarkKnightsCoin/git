@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+# -*- mode: makefile; coding: utf-8 -*-
+
+DEB_INSTALL_EXAMPLES_DarkKnightsCoind += debian/examples/*
+DEB_INSTALL_MANPAGES_DarkKnightsCoind += debian/manpages/*
+
+%:
+	dh --with bash-completion $@
+
+override_dh_auto_build:
+	cd src; $(MAKE) -f makefile.unix DarkKnightsCoind USE_ASM=1 USE_LEVELDB=1
+	$(MAKE)
+
+override_dh_auto_clean:
+	if [ -f Makefile ]; then $(MAKE) clean; else rm -rf build/; rm -f DarkKnightsCoin-qt; fi
+	cd src; $(MAKE) -f makefile.unix clean
+
+override_dh_auto_configure:
+	qmake DarkKnightsCoin-qt.pro USE_ASM=1 USE_LEVELDB=1
+
+# Ensure wrapper is set executable
+binary-post-install/DarkKnightsCoind:
+	chmod +x $(cdbs_curdestdir)usr/bin/DarkKnightsCoind
+binary-post-install/DarkKnightsCoin-qt:
+	chmod +x $(cdbs_curdestdir)usr/bin/DarkKnightsCoin-qt

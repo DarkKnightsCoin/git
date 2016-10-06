@@ -1,0 +1,9 @@
+Building DarkKnightsCoin
+
+See doc/readme-qt.rst for instructions on building DarkKnightsCoin Qt,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of DarkKnightsCoin.
+
+See doc/build-*.txt for instructions on building DarkKnightsCoind,
+the intended-for-services, no-graphical-interface, reference
+implementation of DarkKnightsCoin.

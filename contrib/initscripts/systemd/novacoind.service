@@ -1,0 +1,11 @@
+[Unit]
+Description=DarkKnightsCoin daemon serivce
+After=network.target
+
+[Service]
+Type=simple
+User=DarkKnightsCoin
+ExecStart=/opt/DarkKnightsCoin/DarkKnightsCoind
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=DarkKnightsCoin
+Comment=DarkKnightsCoin P2P Cryptocurrency
+Comment[ru]=DarkKnightsCoin, P2P криптовалюта
+Comment[fr]=DarkKnightsCoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=DarkKnightsCoin, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/DarkKnightsCoin-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/DarkKnightsCoin80.xpm
+MimeType=x-scheme-handler/DarkKnightsCoin;
+Categories=Office;

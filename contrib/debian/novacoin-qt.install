@@ -1,0 +1,5 @@
+DarkKnightsCoin-qt usr/bin
+share/pixmaps/DarkKnightsCoin32.xpm usr/share/pixmaps
+share/pixmaps/DarkKnightsCoin80.xpm usr/share/pixmaps
+debian/DarkKnightsCoin-qt.desktop usr/share/applications
+debian/DarkKnightsCoin-qt.protocol usr/share/kde4/services/
